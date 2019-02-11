@@ -18,7 +18,7 @@ export function create(hackathon: any) {
         dispatch({ type: ACTIONS.HACKATHON_CREATE });
         try {
             await hackathonService.create(hackathon);
-            dispatch({ type: ACTIONS.HACKATHON_CREATE_SUCCESS });
+            dispatch({ type: ACTIONS.HACKATHON_CREATE_SUCCESS, success: true });
         }
         catch (err) {
             dispatch({ type: ACTIONS.HACKATHON_CREATE_FAILURE, payload: err });

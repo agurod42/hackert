@@ -7,7 +7,7 @@ import { reduxForm, Field } from 'redux-form';
 export default class extends React.Component<any, any> {
 
     componentDidUpdate() {
-        this.renderMessageIfLoading();
+        this.renderMessages();
     }
 
     render() {
@@ -36,9 +36,12 @@ export default class extends React.Component<any, any> {
         );
     }
 
-    renderMessageIfLoading() {
+    renderMessages() {
         if (this.props.loading) {
             message.loading('The hackathon is being created. Please be patient, this may take a while.', 0);
+        }
+        else if (this.props.success) {
+            message.success('The hackathon has been created successfully.');
         }
         else {
             if (message) message.destroy();
