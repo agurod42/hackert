@@ -8,6 +8,11 @@ body {
   margin: 0;
 }
 
+#brand {
+  color: white;
+  margin-right: 8px;
+}
+
 #root, #root > div {
   min-height: 100%;
 }
@@ -16,7 +21,6 @@ body {
   padding: 24px;
 }
 
-#brand {
-  color: white;
-  margin-right: 8px;
+.ant-list-item-meta-content {
+  max-width: 86%;
 }

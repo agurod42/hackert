@@ -1,4 +1,4 @@
-import { Avatar, Col, Icon, List, Row, Skeleton } from 'antd';
+import { Avatar, Col, Icon, List, Row, Skeleton, Button } from 'antd';
 import React from 'react';
 
 interface IHackathonListProps {
@@ -27,14 +27,14 @@ export default class HackathonList extends React.Component<IHackathonListProps> 
     
     renderItem(item) {
         return (
-            <List.Item>
+            <List.Item actions={[<Button type='primary'>Submit</Button>]}>
                 <Skeleton active avatar loading={this.props.loading}>
                     <List.Item.Meta
                         avatar={<Avatar shape='square' size={100} src='https://picsum.photos/200' />}
                         description={item.description}
                         title={<a href={`/hachathon/${item.id}`}>{item.title}</a>}
                     />
-                    <Row>
+                    <Row type='flex' style={{ flexDirection: 'column', height: 100, justifyContent: 'center' }}>
                         <Col>
                             <Icon type='star' theme='filled' /> $10.000 in prizes
                         </Col>
