@@ -1,10 +1,33 @@
-import { Card, Col, Row, Button } from 'antd';
+import { message, Card, Col, Row, Button } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HachathonList from '@/components/hachathon/list';
 import HackathonSearchForm from '@/components/hachathon/searchForm';
-import { Link } from 'react-router-dom';
+import HackathonService from '@/services/hackathon';
 
-export default class extends React.Component {
+export default class extends React.Component<any, any> {
+  
+  private hackathonService: HackathonService;
+
+  constructor(props) {
+    super(props);
+    this.hackathonService = new HackathonService();
+    this.state = {
+      hackathons: [],
+      loading: false
+    };
+  }
+
+  async componentDidMount() {
+    try {
+      this.setState({ loading: true });
+      this.setState({ loading: false, hackathons: await this.hackathonService.list() });
+    }
+    catch (err) {
+      message.destroy();
+      message.error((err.message || err).toString());
+    }
+  }
   
   render() {
     return (
@@ -23,12 +46,25 @@ export default class extends React.Component {
           </Col>
           <Col style={{ marginTop: 24 }}>
             <Card>
-              <HachathonList />
+              <HachathonList 
+                dataSource={this.state.hackathons} 
+                loading={this.state.loading}
+                onSetWinnerModalOk={async (hackathon, winnerAddress) => await this.onSetWinnerModalOk(hackathon, winnerAddress)} />
             </Card>
           </Col>
         </Row>
       </>
     );
+  }
+
+  async onSetWinnerModalOk(hackathon, winnerAddress) {
+    try {
+      await this.hackathonService.assignWinner(hackathon, winnerAddress);
+    }
+    catch (err) {
+      message.destroy();
+      message.error((err.message || err).toString());
+    }
   }
 
 }
