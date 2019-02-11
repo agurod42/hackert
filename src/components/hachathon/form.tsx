@@ -1,71 +1,78 @@
-import { Button, DatePicker, Form, Input, InputNumber } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
+import { message, Button, DatePicker, Form, Input, InputNumber } from 'antd';
 import moment from 'moment';
 import React from 'react';
+import { reduxForm, Field } from 'redux-form';
 
-interface IHackathonFormProps extends FormComponentProps {
-    onSubmit: (values) => any;
-}
+@reduxForm({ form: 'manager' })
+export default class extends React.Component<any, any> {
 
-export default Form.create()(class extends React.Component<IHackathonFormProps> {
-
-    private formRules = {
-        symbol: [{ required: true }],
-        title: [{ required: true }],
-        description: [{ required: true }],
-        prize: [{ required: true }],
-        endDate: [{ required: true }]
-    };
+    componentDidUpdate() {
+        this.renderMessageIfLoading();
+    }
 
     render() {
         const colProps = { labelCol: { md: { span: 4 }, xl: { span: 2 } }, wrapperCol: { md: { span: 20 }, xl: { span: 22 } } };
         return (
-            <Form>
+            <form onSubmit={this.props.handleSubmit}>
                 <Form.Item label='Symbol' {...colProps}>
-                    {this.renderField('symbol', null,
-                        <Input placeholder='GBH' />
-                    )}
+                    <Field name='symbol' component={this.renderSymbolField} />
                 </Form.Item>
                 <Form.Item label='Title' {...colProps}>
-                    {this.renderField('title', null,
-                        <Input placeholder='Global Blockchain Hackathon for Clean Water' />
-                    )}
+                    <Field name='title' component={this.renderTitleField} />
                 </Form.Item>
                 <Form.Item label='Description' {...colProps}>
-                    {this.renderField('description', '',
-                        <Input placeholder={'We challenge participants to create innovative applications using Blockchain, AI & IoT technologies to help solve the world\'s growing water challenges.'} />
-                    )}
+                    <Field name='description' component={this.renderDescriptionField} />
                 </Form.Item>
                 <Form.Item label='Prize' {...colProps}>
-                    {this.renderField('prize', 1000,
-                        <InputNumber min={0} placeholder={'1000'} formatter={(value) => `$ ${value}`} />
-                    )}
+                    <Field name='prize' component={this.renderPrizeField} />
                 </Form.Item>
                 <Form.Item label='End Date' {...colProps}>
-                    {this.renderField('endDate', moment().add(7, 'days'),
-                        <DatePicker disabledDate={(endDate) => endDate.valueOf() < moment().valueOf()} />
-                    )}
+                    <Field name='endDate' component={this.renderEndDateField} />
                 </Form.Item>
                 <Form.Item wrapperCol={{ md: { offset: 4 }, xl: { offset: 2 } }}>
-                    <Button type='primary' onClick={() => this.onFormSubmit()}>Post</Button>
+                    <Button type='primary' htmlType='submit' loading={this.props.loading}>Post</Button>
                 </Form.Item>
-            </Form>
+            </form>
         );
     }
 
-    renderField(key, value, children) {
-        // @ts-ignore
-        return this.props.form.getFieldDecorator(key, { initialValue: value, rules: this.formRules[key] })(children);
+    renderMessageIfLoading() {
+        if (this.props.loading) {
+            message.loading('The hackathon is being created. Please be patient, this may take a while.', 0);
+        }
+        else {
+            if (message) message.destroy();
+        }
     }
 
-    onFormSubmit() {
-        this.props.form.validateFields(async (err) => {
-            if (err) return;
-
-            if (this.props.onSubmit) {
-                this.props.onSubmit(this.props.form.getFieldsValue());
-            }
-        });
+    renderSymbolField(props) {
+        return (
+            <Input autoFocus placeholder='GBH' {...props.input} />
+        );
     }
 
-});
+    renderTitleField(props) {
+        return (
+            <Input placeholder='Global Blockchain Hackathon for Clean Water' {...props.input} />
+        );
+    }
+
+    renderDescriptionField(props) {
+        return (
+            <Input placeholder={`We challenge participants to create innovative applications using Blockchain, AI & IoT technologies to help solve the world\'s growing water challenges.`} {...props.input} />
+        );
+    }
+
+    renderPrizeField(props) {
+        return (
+            <InputNumber min={0} placeholder={'1000'} formatter={(value) => `$ ${value}`} value={(props.input.value || '').toString().replace('$ ', '')} onChange={(v) => props.input.onChange(v)} />
+        );
+    }
+
+    renderEndDateField(props) {
+        return (
+            <DatePicker disabledDate={(endDate) => endDate.valueOf() < moment().valueOf()} value={moment(props.input.value || new Date())} onChange={(v) => props.input.onChange(v)} />
+        );
+    }
+
+};

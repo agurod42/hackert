@@ -46,10 +46,7 @@ export default class extends React.Component<any, any> {
           </Col>
           <Col style={{ marginTop: 24 }}>
             <Card>
-              <HachathonList 
-                dataSource={this.state.hackathons} 
-                loading={this.state.loading}
-                onSetWinnerModalOk={async (hackathon, winnerAddress) => await this.onSetWinnerModalOk(hackathon, winnerAddress)} />
+              <HachathonList />
             </Card>
           </Col>
         </Row>

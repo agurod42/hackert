@@ -1,16 +1,15 @@
-import { message, Card, Col, Row } from 'antd';
+import { Card, Col, Row } from 'antd';
 import React from 'react';
+import { connect } from 'react-redux';
+import { create } from '@/app/hackathon/hackathon.actions';
 import HackathonForm from '@/components/hachathon/form';
-import HackathonService from '@/services/hackathon';
 
-export default class extends React.Component {
+const mapStateToProps = ({ hackathonReducer }) => ({ 
+  loading: hackathonReducer.loading,
+});
 
-  private hackathonService: HackathonService;
-
-  constructor(props) {
-    super(props);
-    this.hackathonService = new HackathonService();
-  }
+@connect(mapStateToProps, { create })
+export default class extends React.Component<any, any> {
   
   render() {
     return (
@@ -18,24 +17,11 @@ export default class extends React.Component {
         <Row>
           <Col><h2>Post a new hackathon</h2></Col>
           <Col>
-            <HackathonForm onSubmit={(hackathon) => this.onFormSubmit(hackathon)} />
+            <HackathonForm loading={this.props.loading} onSubmit={(v) => this.props.create(v)} />
           </Col>
         </Row>
       </Card>
     );
-  }
-
-  async onFormSubmit(hackathon) {
-    try {
-      message.loading('The hackathon is beign created. Please be patient, this may take a while.', 0);
-      await this.hackathonService.create(hackathon);
-      message.destroy();
-      message.success('The hackathon was created successfully');
-    }
-    catch (err) {
-      message.destroy();
-      message.error((err.message || err).toString());
-    }
   }
 
 }
