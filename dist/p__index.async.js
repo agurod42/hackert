@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[4],{QeBL:function(n,t,e){"use strict";e.r(t);var a=e("q1tI"),o=e.n(a),c=e("grfu");t["default"]=function(){return o.a.createElement(c["a"],{to:"/hackathons"})}}}]);
