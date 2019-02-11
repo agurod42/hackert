@@ -1,0 +1,22 @@
+@import '~antd/dist/antd.css';
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#root, #root > div {
+  min-height: 100%;
+}
+
+#root .ant-layout-content {
+  padding: 24px;
+}
+
+#brand {
+  color: white;
+  margin-right: 8px;
+}
