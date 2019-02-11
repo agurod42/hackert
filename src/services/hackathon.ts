@@ -1,4 +1,3 @@
-import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
 import { Cert } from '@0xcert/cert';
 import { Object86, schema86 } from '@0xcert/conventions';
 import axios from 'axios';
@@ -57,13 +56,13 @@ export default class {
 
     async assignWinner(hackathon, winnerAddress) {
         await _0xcert.enable();
-
+        
         const asset = {
-            id: `${hackathon.symbol}-1`,
+            id: Math.floor(Math.random() * 1000000).toString(),
             imprint: hackathon.prizeImprint,
             receiverId: winnerAddress
         };
-
+        
         const ledger = await _0xcert.getLedger(hackathon.contract);
         await ledger.createAsset(asset).then((mutation) => mutation.complete());
 
