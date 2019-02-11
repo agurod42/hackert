@@ -2,7 +2,7 @@ import { Avatar, Col, Icon, List, Row, Skeleton, Button } from 'antd';
 import React from 'react';
 
 interface IHackathonListProps {
-    loading: boolean;
+    loading?: boolean;
 }
 
 export default class HackathonList extends React.Component<IHackathonListProps> {

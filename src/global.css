@@ -4,13 +4,13 @@ html, body, #root {
   height: 100%;
 }
 
-body {
+html, body {
   margin: 0;
 }
 
 #brand {
   color: white;
-  margin-right: 8px;
+  margin-right: 24px;
 }
 
 #root, #root > div {

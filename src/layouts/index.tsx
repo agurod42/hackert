@@ -1,5 +1,6 @@
 import { Layout, Menu } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export type BasicLayoutComponent<P> = React.SFC<P>;
 
@@ -13,8 +14,8 @@ const BasicLayout: BasicLayoutComponent<BasicLayoutProps> = props => {
     <Layout>
       <Layout.Header style={{ display: 'flex' }}>
         <h1 id='brand'>&lt;hackert/&gt;</h1>
-        <Menu theme='dark' mode='horizontal' style={{ flex: '1 1 auto', lineHeight: '64px' }}>
-          <Menu.Item key='1'>Hackathons</Menu.Item>
+        <Menu theme='dark' mode='horizontal' defaultSelectedKeys={[props.location.pathname]} style={{ flex: '1 1 auto', lineHeight: '64px' }}>
+          <Menu.Item key='/hackathons'><Link to='/hackathons'>Hackathons</Link></Menu.Item>
         </Menu>
       </Layout.Header>
       <Layout.Content>
