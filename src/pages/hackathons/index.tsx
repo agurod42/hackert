@@ -59,7 +59,10 @@ export default class extends React.Component<any, any> {
 
   async onSetWinnerModalOk(hackathon, winnerAddress) {
     try {
+      message.loading('The winner is beign set. Please be patient, this may take a while.', 0);
       await this.hackathonService.assignWinner(hackathon, winnerAddress);
+      message.destroy();
+      message.success('The winner was set created successfully');
     }
     catch (err) {
       message.destroy();

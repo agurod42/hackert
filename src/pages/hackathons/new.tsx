@@ -27,7 +27,10 @@ export default class extends React.Component {
 
   async onFormSubmit(hackathon) {
     try {
+      message.loading('The hackathon is beign created. Please be patient, this may take a while.', 0);
       await this.hackathonService.create(hackathon);
+      message.destroy();
+      message.success('The hackathon was created successfully');
     }
     catch (err) {
       message.destroy();
